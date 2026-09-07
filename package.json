@@ -1,7 +1,7 @@
 {
 	"name": "gagans-routine-heatmap",
-	"version": "1.0.0",
-	"description": "Paint a yearly heatmap and Calendar plugin days from completed {id} routine tasks in daily notes.",
+	"version": "1.0.1",
+	"description": "Paint a yearly heatmap from completed id-tagged routine tasks in daily notes.",
 	"main": "main.js",
 	"type": "module",
 	"scripts": {

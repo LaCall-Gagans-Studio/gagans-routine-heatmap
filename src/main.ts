@@ -332,7 +332,7 @@ class GagansRoutineHeatmapSettingTab extends PluginSettingTab {
 	display(): void {
 		const { containerEl } = this;
 		containerEl.empty();
-		containerEl.createEl('h2', { text: 'Routine Heatmap [Gagans]' });
+		containerEl.createEl('h2', { text: 'Routine Heatmap (Gagans)' });
 
 		new Setting(containerEl)
 			.setName('Daily notes folder')

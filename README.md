@@ -1,4 +1,4 @@
-# Routine Heatmap [Gagans]
+# Routine Heatmap (Gagans)
 
 Show a yearly heatmap (and optional [Calendar](https://github.com/liamcain/obsidian-calendar-plugin) day colors) from completed routine tasks in daily notes.
 

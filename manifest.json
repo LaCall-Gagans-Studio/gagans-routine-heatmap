@@ -1,9 +1,9 @@
 {
 	"id": "gagans-routine-heatmap",
-	"name": "Routine Heatmap [Gagans]",
-	"version": "1.0.0",
+	"name": "Routine Heatmap (Gagans)",
+	"version": "1.0.1",
 	"minAppVersion": "1.5.0",
-	"description": "Paint a yearly heatmap and Calendar plugin days from completed {id} routine tasks in daily notes.",
+	"description": "Paint a yearly heatmap from completed id-tagged routine tasks in daily notes.",
 	"author": "Gagans",
 	"authorUrl": "https://github.com/LaCall-Gagans-Studio",
 	"isDesktopOnly": false
