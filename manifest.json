@@ -1,7 +1,7 @@
 {
 	"id": "gagans-routine-heatmap",
 	"name": "Routine Heatmap (Gagans)",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"minAppVersion": "1.5.0",
 	"description": "Paint a yearly heatmap from completed id-tagged routine tasks in daily notes.",
 	"author": "Gagans",
