@@ -7,6 +7,7 @@ import {
 	WorkspaceLeaf,
 	setIcon,
 	type EventRef,
+	type ViewStateResult,
 } from 'obsidian';
 
 const VIEW_TYPE_ROUTINE_HEATMAP = 'gagans-routine-heatmap';
@@ -50,6 +51,10 @@ const DEFAULT_SETTINGS: GagansRoutineHeatmapSettings = {
 	showCurrentDayBorder: true,
 	weekdayLanguage: 'en',
 };
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+	return typeof value === 'object' && value !== null;
+}
 
 function toIso(name: string): string | null {
 	const match = String(name).match(DATE_NAME_REGEX);
@@ -206,14 +211,14 @@ class RoutineHeatmapView extends ItemView {
 		return { year: this.year };
 	}
 
-	async setState(state: unknown, result: unknown): Promise<void> {
-		const next = state as { year?: number } | null;
-		if (next && typeof next.year === 'number' && Number.isFinite(next.year)) {
-			this.year = next.year;
+	async setState(state: unknown, result: ViewStateResult): Promise<void> {
+		if (state && typeof state === 'object' && 'year' in state) {
+			const year = (state as { year?: unknown }).year;
+			if (typeof year === 'number' && Number.isFinite(year)) {
+				this.year = year;
+			}
 		}
-		if (typeof super.setState === 'function') {
-			await super.setState(state as never, result as never);
-		}
+		await super.setState(state, result);
 		if (this.isOpen) await this.render();
 	}
 
@@ -314,10 +319,12 @@ class RoutineHeatmapView extends ItemView {
 			year: this.year,
 			showCurrentDayBorder: this.plugin.settings.showCurrentDayBorder,
 			entries: snapshot.overall,
-			onSelect: (path) => this.plugin.openDailyNote(path),
+			onSelect: (path) => {
+				void this.plugin.openDailyNote(path);
+			},
 		});
 		this.syncCellSize();
-		requestAnimationFrame(() => this.syncCellSize());
+		window.requestAnimationFrame(() => this.syncCellSize());
 	}
 }
 
@@ -476,8 +483,22 @@ export default class GagansRoutineHeatmapPlugin extends Plugin {
 	}
 
 	async loadSettings(): Promise<void> {
-		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
+		this.settings = { ...DEFAULT_SETTINGS, ...this.parseSettings(await this.loadData()) };
 		if (this.settings.weekdayLanguage !== 'ja') this.settings.weekdayLanguage = 'en';
+	}
+
+	parseSettings(raw: unknown): Partial<GagansRoutineHeatmapSettings> {
+		if (!isRecord(raw)) return {};
+		const parsed: Partial<GagansRoutineHeatmapSettings> = {};
+		if (typeof raw.dailyNotesFolder === 'string') parsed.dailyNotesFolder = raw.dailyNotesFolder;
+		if (typeof raw.dailyTag === 'string') parsed.dailyTag = raw.dailyTag;
+		if (typeof raw.requireDailyTag === 'boolean') parsed.requireDailyTag = raw.requireDailyTag;
+		if (typeof raw.weekStartDay === 'number') parsed.weekStartDay = raw.weekStartDay;
+		if (typeof raw.showCurrentDayBorder === 'boolean') parsed.showCurrentDayBorder = raw.showCurrentDayBorder;
+		if (raw.weekdayLanguage === 'en' || raw.weekdayLanguage === 'ja') {
+			parsed.weekdayLanguage = raw.weekdayLanguage;
+		}
+		return parsed;
 	}
 
 	async saveSettings(): Promise<void> {
@@ -485,10 +506,9 @@ export default class GagansRoutineHeatmapPlugin extends Plugin {
 	}
 
 	createCalendarSource() {
-		const plugin = this;
 		return {
 			getDailyMetadata: async (date: { format?: (fmt: string) => string; toDate?: () => Date }) =>
-				plugin.getCalendarDayMetadata(date),
+				this.getCalendarDayMetadata(date),
 			getWeeklyMetadata: async () => ({ classes: [], dots: [] }),
 		};
 	}
@@ -584,7 +604,7 @@ export default class GagansRoutineHeatmapPlugin extends Plugin {
 		const { workspace } = this.app;
 		const existing = workspace.getLeavesOfType(VIEW_TYPE_ROUTINE_HEATMAP);
 		if (existing.length) {
-			workspace.revealLeaf(existing[0]);
+			workspace.setActiveLeaf(existing[0], { focus: true });
 			return;
 		}
 
@@ -603,7 +623,7 @@ export default class GagansRoutineHeatmapPlugin extends Plugin {
 			type: VIEW_TYPE_ROUTINE_HEATMAP,
 			active: true,
 		});
-		workspace.revealLeaf(leaf);
+		workspace.setActiveLeaf(leaf, { focus: true });
 	}
 
 	normalizeFolder(folder: string): string {
@@ -735,6 +755,6 @@ export default class GagansRoutineHeatmapPlugin extends Plugin {
 				: null)
 			|| workspace.getLeaf('tab');
 		await leaf.openFile(file);
-		workspace.revealLeaf(leaf);
+		workspace.setActiveLeaf(leaf, { focus: true });
 	}
 }

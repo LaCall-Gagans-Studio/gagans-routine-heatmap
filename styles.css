@@ -127,77 +127,77 @@
 }
 
 /* Calendar plugin: routine heatmap + today hatch */
-.day[data-routine-heat="1"] {
+.workspace-leaf-content[data-type="calendar"] .day[data-routine-heat="1"] {
   --routine-heat-fill: color-mix(in srgb, var(--interactive-accent) 18%, transparent);
 }
 
-.day[data-routine-heat="2"] {
+.workspace-leaf-content[data-type="calendar"] .day[data-routine-heat="2"] {
   --routine-heat-fill: color-mix(in srgb, var(--interactive-accent) 34%, transparent);
 }
 
-.day[data-routine-heat="3"] {
+.workspace-leaf-content[data-type="calendar"] .day[data-routine-heat="3"] {
   --routine-heat-fill: color-mix(in srgb, var(--interactive-accent) 52%, transparent);
 }
 
-.day[data-routine-heat="4"] {
+.workspace-leaf-content[data-type="calendar"] .day[data-routine-heat="4"] {
   --routine-heat-fill: color-mix(in srgb, var(--interactive-accent) 70%, transparent);
 }
 
-.day[data-routine-heat="5"] {
+.workspace-leaf-content[data-type="calendar"] .day[data-routine-heat="5"] {
   --routine-heat-fill: color-mix(in srgb, var(--interactive-accent) 88%, transparent);
 }
 
-.day[data-routine-heat] {
-  background-color: var(--routine-heat-fill) !important;
+.workspace-leaf-content[data-type="calendar"] .day[data-routine-heat] {
+  background-color: var(--routine-heat-fill);
 }
 
-.day[data-routine-heat="4"],
-.day[data-routine-heat="5"] {
-  color: var(--text-on-accent) !important;
+.workspace-leaf-content[data-type="calendar"] .day[data-routine-heat="4"],
+.workspace-leaf-content[data-type="calendar"] .day[data-routine-heat="5"] {
+  color: var(--text-on-accent);
 }
 
-.day[data-routine-heat]:hover,
-.day[data-routine-heat].active:hover {
-  background-color: var(--routine-heat-fill) !important;
+.workspace-leaf-content[data-type="calendar"] .day[data-routine-heat]:hover,
+.workspace-leaf-content[data-type="calendar"] .day[data-routine-heat].active:hover {
+  background-color: var(--routine-heat-fill);
   filter: brightness(1.08);
 }
 
-.day.today {
+.workspace-leaf-content[data-type="calendar"] .day.today {
   background-image: repeating-linear-gradient(
     -45deg,
     var(--interactive-accent) 0 1.75px,
     transparent 1.75px 5.5px
-  ) !important;
+  );
 }
 
-.day.today[data-routine-heat="4"],
-.day.today[data-routine-heat="5"] {
+.workspace-leaf-content[data-type="calendar"] .day.today[data-routine-heat="4"],
+.workspace-leaf-content[data-type="calendar"] .day.today[data-routine-heat="5"] {
   background-image: repeating-linear-gradient(
     -45deg,
     color-mix(in srgb, var(--text-on-accent) 75%, transparent) 0 1.75px,
     transparent 1.75px 5.5px
-  ) !important;
+  );
 }
 
-.day.today.active,
-.day.active.today,
-.day.active.today:hover,
-.day.today:active {
-  background-color: var(--routine-heat-fill, transparent) !important;
-  color: var(--color-text-today, var(--interactive-accent)) !important;
+.workspace-leaf-content[data-type="calendar"] .day.today.active,
+.workspace-leaf-content[data-type="calendar"] .day.active.today,
+.workspace-leaf-content[data-type="calendar"] .day.active.today:hover,
+.workspace-leaf-content[data-type="calendar"] .day.today:active {
+  background-color: var(--routine-heat-fill, transparent);
+  color: var(--color-text-today, var(--interactive-accent));
 }
 
-.day.today.active[data-routine-heat="4"],
-.day.today.active[data-routine-heat="5"],
-.day.active.today[data-routine-heat="4"],
-.day.active.today[data-routine-heat="5"] {
-  color: var(--text-on-accent) !important;
+.workspace-leaf-content[data-type="calendar"] .day.today.active[data-routine-heat="4"],
+.workspace-leaf-content[data-type="calendar"] .day.today.active[data-routine-heat="5"],
+.workspace-leaf-content[data-type="calendar"] .day.active.today[data-routine-heat="4"],
+.workspace-leaf-content[data-type="calendar"] .day.active.today[data-routine-heat="5"] {
+  color: var(--text-on-accent);
 }
 
-.day.active:not(.today),
-.day.active:not(.today):hover {
-  background-color: var(--interactive-accent) !important;
-  background-image: none !important;
-  color: var(--text-on-accent) !important;
+.workspace-leaf-content[data-type="calendar"] .day.active:not(.today),
+.workspace-leaf-content[data-type="calendar"] .day.active:not(.today):hover {
+  background-color: var(--interactive-accent);
+  background-image: none;
+  color: var(--text-on-accent);
   filter: none;
 }
